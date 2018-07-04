@@ -2,22 +2,31 @@ require_relative 'pub'
 require_relative 'drink'
 
 class Customer
-  attr_reader :wallet
-  def initialize(arg1, arg2)
+  attr_reader :wallet, :drunkenness
+  def initialize(arg1, arg2, arg3, arg4)
     @name = arg1
     @wallet = arg2
+    @age = arg3
+    @drunkenness = arg4
   end
 
-# Process of buying:
-# Take money from wallet
-# Give money to pub
-# money is based on drink's price
-# pub gives you drink
+  # takes: age, wallet, drunkenness
+  # takes(drink): name, price
+  # takes(pub): till, drinks
+  # returns: true, false
 
   def buy_drink(pub, drink)
-    @wallet -= drink.price
-    pub.till += drink.price
+    if (@age >= 18) && (@drunkenness < 150)
+      for each in pub.drinks
+        if each.name == drink
+          @wallet -= each.price
+          pub.till += each.price
+          @drunkenness += each.alcohol_level
+          return true
+        end
+      end
+    end
+    return false
   end
-
 
 end
