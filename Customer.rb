@@ -1,5 +1,6 @@
 require_relative 'pub'
 require_relative 'drink'
+require_relative 'food'
 
 class Customer
   attr_reader :wallet, :drunkenness
@@ -11,7 +12,7 @@ class Customer
   end
 
   # takes: age, wallet, drunkenness
-  # takes(drink): name, price
+  # takes(drink): name, price, alcohol_level
   # takes(pub): till, drinks
   # returns: true, false
 
@@ -28,5 +29,25 @@ class Customer
     end
     return false
   end
+
+  # takes: age, wallet, drunkennes
+  # takes(food): name, price, refreshment_level
+  # takes(pub): till, foods
+  # returns: true, false
+
+  def buy_food(pub, food)
+    if (@age >= 18) && (@drunkenness < 150)
+      for each in pub.foods
+        if each.name == food
+          @wallet -= each.price
+          pub.till += each.price
+          @drunkenness -= each.rejuvenation_level
+          return true
+        end
+      end
+    end
+    return false
+  end
+
 
 end
